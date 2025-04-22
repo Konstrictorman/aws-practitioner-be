@@ -1,0 +1,433 @@
+{
+  "version": "41.0.0",
+  "artifacts": {
+    "ProductApiStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ProductApiStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ProductApiStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://448049832395/us-east-1",
+      "properties": {
+        "templateFile": "ProductApiStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::448049832395:role/cdk-hnb659fds-deploy-role-448049832395-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::448049832395:role/cdk-hnb659fds-cfn-exec-role-448049832395-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-448049832395-us-east-1/915615cfb51ed7324067770b859256021e542787e6d5973f4ae53e9d42df310a.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ProductApiStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::448049832395:role/cdk-hnb659fds-lookup-role-448049832395-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ProductApiStack.assets"
+      ],
+      "metadata": {
+        "/ProductApiStack/getProductsList": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "code": "*",
+              "handler": "*",
+              "runtime": "*",
+              "memorySize": "*",
+              "timeout": "*"
+            }
+          }
+        ],
+        "/ProductApiStack/getProductsList/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ProductApiStack/getProductsList/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ProductApiStack/getProductsList/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getProductsListServiceRoleC64A5CD3"
+          }
+        ],
+        "/ProductApiStack/getProductsList/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getProductsList1F4CE4F4"
+          }
+        ],
+        "/ProductApiStack/getProductById": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "code": "*",
+              "handler": "*",
+              "runtime": "*",
+              "memorySize": "*",
+              "timeout": "*"
+            }
+          }
+        ],
+        "/ProductApiStack/getProductById/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ProductApiStack/getProductById/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ProductApiStack/getProductById/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getProductByIdServiceRoleB7E5A825"
+          }
+        ],
+        "/ProductApiStack/getProductById/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getProductByIdB6983DDD"
+          }
+        ],
+        "/ProductApiStack/Products-end-point": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "restApiName": "*",
+              "description": "*"
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Productsendpoint8EAE0D9C"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Deployment": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "description": "*",
+              "api": "*",
+              "retainDeployments": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointDeploymentA864D93Af564c78ed9456841fd3bd23585822379"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/DeploymentStage.prod": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "deployment": "*"
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointDeploymentStageprodE664634D"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointEndpointBEF277C7"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parent": "*",
+              "pathPart": "*"
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsB39FB7A6"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/{productId}": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parent": "*",
+              "pathPart": "*"
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/{productId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsproductId49C3C353"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/{productId}/OPTIONS": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": {
+                "authorizer": {
+                  "authorizerId": "*",
+                  "authorizationType": "*"
+                },
+                "apiKeyRequired": false,
+                "authorizationType": "*",
+                "methodResponses": [
+                  {
+                    "statusCode": "*",
+                    "responseParameters": "*"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addMethodResponse": [
+                {
+                  "statusCode": "*",
+                  "responseParameters": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/{productId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsproductIdOPTIONSDA7E66CF"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/{productId}/GET": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": "*"
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/{productId}/GET/ApiPermission.ProductApiStackProductsendpoint26B78704.GET..products.{productId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsproductIdGETApiPermissionProductApiStackProductsendpoint26B78704GETproductsproductIdF4A36EFF"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/{productId}/GET/ApiPermission.Test.ProductApiStackProductsendpoint26B78704.GET..products.{productId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsproductIdGETApiPermissionTestProductApiStackProductsendpoint26B78704GETproductsproductId2784DD46"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/{productId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsproductIdGET99C9B21A"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/OPTIONS": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": {
+                "authorizer": {
+                  "authorizerId": "*",
+                  "authorizationType": "*"
+                },
+                "apiKeyRequired": false,
+                "authorizationType": "*",
+                "methodResponses": [
+                  {
+                    "statusCode": "*",
+                    "responseParameters": "*"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addMethodResponse": [
+                {
+                  "statusCode": "*",
+                  "responseParameters": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsOPTIONS9FBB2E4B"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/GET": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": "*"
+            }
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/GET/ApiPermission.ProductApiStackProductsendpoint26B78704.GET..products": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsGETApiPermissionProductApiStackProductsendpoint26B78704GETproductsED6D2B49"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/GET/ApiPermission.Test.ProductApiStackProductsendpoint26B78704.GET..products": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsGETApiPermissionTestProductApiStackProductsendpoint26B78704GETproducts9BD39FA2"
+          }
+        ],
+        "/ProductApiStack/Products-end-point/Default/products/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProductsendpointproductsGETA26F0251"
+          }
+        ],
+        "/ProductApiStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ProductApiStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ProductApiStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ProductApiStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "minimumCliVersion": "2.1005.0"
+}
