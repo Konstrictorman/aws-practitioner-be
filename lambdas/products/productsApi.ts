@@ -1,4 +1,4 @@
-import { Product } from '../../models/Product';
+import { Product, ProductSchema } from '../../models/Product';
 
 export const mockProducts: Product[] = [
 	{
@@ -45,24 +45,71 @@ const headers = {
 	'Access-Control-Allow-Credentials': true,
 };
 
-export async function getProductsList() {
-	return {
-		statusCode: 200,
-		body: JSON.stringify(mockProducts),
-		headers: headers,
-	};
+// Validate all mock products before returning
+function validateProducts(data: unknown): Product[] {
+	const validated = data as Product[];
+	for (const product of validated) {
+		ProductSchema.validateSync(product, { strict: true });
+	}
+	return validated;
+}
+export async function getProductsList(): Promise<any> {
+	try {
+		// Potentially await a DB or API call here in the future
+		return {
+			statusCode: 200,
+			headers,
+			body: JSON.stringify(mockProducts),
+		};
+	} catch (error: any) {
+		console.error('Error in getProductsList:', error);
+
+		return {
+			statusCode: 500,
+			headers,
+			body: JSON.stringify({ message: 'Internal Server Error' }),
+		};
+	}
 }
 
-export async function getProductsById(event: any) {
-	const productId = event.pathParameters?.productId;
+export async function getProductsById(event: any): Promise<any> {
+	try {
+		const productId = event.pathParameters?.productId;
 
-	const filterProducts = mockProducts.filter((x: Product) =>
-		x.id?.startsWith(productId)
-	);
+		if (!productId) {
+			return {
+				statusCode: 400,
+				headers,
+				body: JSON.stringify({ message: 'Missing productId parameter' }),
+			};
+		}
 
-	return {
-		statusCode: 200,
-		body: JSON.stringify(filterProducts),
-		headers: headers,
-	};
+		const matches = mockProducts.filter((x: Product) =>
+			x.id?.startsWith(productId)
+		);
+
+		if (matches.length === 0) {
+			return {
+				statusCode: 404,
+				headers,
+				body: JSON.stringify({
+					message: `No product found with ID starting with '${productId}'`,
+				}),
+			};
+		}
+
+		return {
+			statusCode: 200,
+			headers,
+			body: JSON.stringify(matches),
+		};
+	} catch (error: any) {
+		console.error('Error in getProductsById:', error);
+
+		return {
+			statusCode: 500,
+			headers,
+			body: JSON.stringify({ message: 'Internal Server Error' }),
+		};
+	}
 }
