@@ -9,16 +9,16 @@ export class ProductApiStack extends Stack {
 		super(scope, id, props);
 
 		const getProductsList = new lambda.Function(this, 'getProductsList', {
-			code: lambda.Code.fromAsset(path.join(__dirname, '../lambdas/products/')),
-			handler: 'productsApi.getProductsList',
+			code: lambda.Code.fromAsset(path.join(__dirname, '../dist/products/')),
+			handler: 'getProductsList.main',
 			runtime: lambda.Runtime.NODEJS_18_X,
 			memorySize: 1024,
 			timeout: Duration.seconds(5),
 		});
 
 		const getProductById = new lambda.Function(this, 'getProductById', {
-			code: lambda.Code.fromAsset(path.join(__dirname, '../lambdas/products/')),
-			handler: 'productsApi.getProductsById',
+			code: lambda.Code.fromAsset(path.join(__dirname, '../dist/products/')),
+			handler: 'getProductsById.main',
 			runtime: lambda.Runtime.NODEJS_18_X,
 			memorySize: 1024,
 			timeout: Duration.seconds(5),
@@ -29,25 +29,13 @@ export class ProductApiStack extends Stack {
 			description: 'This API serves the Lambda functions for products.',
 		});
 
-		const lambdaIntegration = new apigateway.LambdaIntegration(
-			getProductsList,
-			{}
+		const productsResource = api.root.addResource('products');
+		productsResource.addMethod(
+			'GET',
+			new apigateway.LambdaIntegration(getProductsList)
 		);
 
-		const productsResource = api.root.addResource('products');
 		const productByIdResource = productsResource.addResource('{productId}');
-
-		productsResource.addCorsPreflight({
-			allowOrigins: ['*'], // 👈 or ['https://your-frontend.com'] in prod
-			allowMethods: ['GET'], // or ['GET', 'POST', 'OPTIONS']
-		});
-
-		productByIdResource.addCorsPreflight({
-			allowOrigins: ['*'],
-			allowMethods: ['GET'],
-		});
-
-		productsResource.addMethod('GET', lambdaIntegration);
 		productByIdResource.addMethod(
 			'GET',
 			new apigateway.LambdaIntegration(getProductById)
