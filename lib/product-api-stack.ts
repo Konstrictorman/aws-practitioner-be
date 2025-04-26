@@ -9,16 +9,20 @@ export class ProductApiStack extends Stack {
 		super(scope, id, props);
 
 		const getProductsList = new lambda.Function(this, 'getProductsList', {
-			code: lambda.Code.fromAsset(path.join(__dirname, '../dist/products/')),
-			handler: 'getProductsList.main',
+			code: lambda.Code.fromAsset(
+				path.join(__dirname, '../dist/products/handlers/')
+			),
+			handler: 'getProductsListHandler.main',
 			runtime: lambda.Runtime.NODEJS_18_X,
 			memorySize: 1024,
 			timeout: Duration.seconds(5),
 		});
 
 		const getProductById = new lambda.Function(this, 'getProductById', {
-			code: lambda.Code.fromAsset(path.join(__dirname, '../dist/products/')),
-			handler: 'getProductsById.main',
+			code: lambda.Code.fromAsset(
+				path.join(__dirname, '../dist/products/handlers/')
+			),
+			handler: 'getProductsByIdHandler.main',
 			runtime: lambda.Runtime.NODEJS_18_X,
 			memorySize: 1024,
 			timeout: Duration.seconds(5),

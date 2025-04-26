@@ -1,7 +1,10 @@
-import { headers } from './headers';
-import { getProductsByIdService } from '../productsServices';
+import { headers } from '../../headers';
+import { getProductsById } from '../repo/getProductsById';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
-const main = async (event: any) => {
+export const main = async (
+	event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
 	try {
 		const productId = event.pathParameters?.productId;
 
@@ -12,7 +15,7 @@ const main = async (event: any) => {
 				body: JSON.stringify({ message: 'Missing productId parameter' }),
 			};
 		}
-		const matches = await getProductsByIdService(productId);
+		const matches = await getProductsById(productId);
 		if (matches === undefined || matches.length === 0) {
 			return {
 				statusCode: 404,

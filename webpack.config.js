@@ -4,15 +4,17 @@ module.exports = {
 	target: 'node', // Important for Lambda environment
 	mode: 'production',
 	entry: {
-		getProductsList: './services/products/getProductsList.ts',
-		getProductsById: './services/products/getProductsById.ts',
+		getProductsListHandler:
+			'./services/products/handlers/getProductsListHandler.ts',
+		getProductsByIdHandler:
+			'./services/products/handlers/getProductsByIdHandler.ts',
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],
 	},
 	output: {
 		filename: '[name].js', // [name] will be getProductsList.js and getProductsById.js
-		path: path.resolve(__dirname, 'dist/products'), // output bundled files into dist/products
+		path: path.resolve(__dirname, 'dist/products/handlers'), // output bundled files into dist/products
 		libraryTarget: 'commonjs2', // Important for Lambda
 	},
 	module: {

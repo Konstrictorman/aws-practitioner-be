@@ -11,21 +11,21 @@
     },
     "ProductApiStack": {
       "type": "aws:cloudformation:stack",
-      "environment": "aws://448049832395/us-east-1",
+      "environment": "aws://unknown-account/unknown-region",
       "properties": {
         "templateFile": "ProductApiStack.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
-        "assumeRoleArn": "arn:${AWS::Partition}:iam::448049832395:role/cdk-hnb659fds-deploy-role-448049832395-us-east-1",
-        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::448049832395:role/cdk-hnb659fds-cfn-exec-role-448049832395-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-448049832395-us-east-1/ef55fda6e87b158a125acdc362d0c32e89d59f4ad56d292dc0e3013c7bd3b4b8.json",
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5c815ff2757edfe74f971c6584c4e0d82332523a053151896937e6c06127c0e3.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
           "ProductApiStack.assets"
         ],
         "lookupRole": {
-          "arn": "arn:${AWS::Partition}:iam::448049832395:role/cdk-hnb659fds-lookup-role-448049832395-us-east-1",
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
           "requiresBootstrapStackVersion": 8,
           "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
         }
@@ -186,7 +186,7 @@
         "/ProductApiStack/Products-end-point/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ProductsendpointDeploymentA864D93Abd41ebc455e431412a85228a95c78189"
+            "data": "ProductsendpointDeploymentA864D93Ae3cc61c337d61ee6e3387fc90a175e3c"
           }
         ],
         "/ProductApiStack/Products-end-point/DeploymentStage.prod": [
@@ -307,6 +307,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
+          }
+        ],
+        "/ProductApiStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
           }
         ],
         "/ProductApiStack/BootstrapVersion": [
