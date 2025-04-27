@@ -1,2 +1,2 @@
-import { Product } from '../../../models/Product';
-export declare const getProductsList: () => Promise<Product[] | undefined>;
+import { ProductDto } from '../../../models/ProductDto';
+export declare const getProductsList: () => Promise<ProductDto[] | undefined>;

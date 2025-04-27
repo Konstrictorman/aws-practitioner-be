@@ -1,6 +1,6 @@
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { headers } from '../../headers';
 import { getProductsById } from '../repo/getProductsById';
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 export const main = async (
 	event: APIGatewayProxyEvent

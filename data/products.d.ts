@@ -1,2 +1,2 @@
-import { Product } from '../models/Product';
-export declare const mockProducts: Product[];
+import { ProductDto } from '../models/ProductDto';
+export declare const mockProducts: ProductDto[];

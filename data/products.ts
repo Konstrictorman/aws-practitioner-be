@@ -1,6 +1,6 @@
-import { Product } from '../models/Product';
+import { ProductDto } from '../models/ProductDto';
 
-export const mockProducts: Product[] = [
+export const mockProducts: ProductDto[] = [
 	{
 		description: 'Short Product Description1',
 		id: '7567ec4b-b10c-48c5-9345-fc73c48a80aa',

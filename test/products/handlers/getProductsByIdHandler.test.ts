@@ -1,41 +1,78 @@
 import { main as getProductsByIdHandler } from '../../../services/products/handlers/getProductsByIdHandler';
-import { APIGatewayProxyEvent } from 'aws-lambda';
+import * as productsRepo from '../../../services/products/repo/getProductsById';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 describe('getProductsByIdHandler', () => {
+	afterEach(() => {
+		jest.restoreAllMocks();
+	});
+
+	const createMockEvent = (productId?: string): APIGatewayProxyEvent => ({
+		body: null,
+		headers: {},
+		multiValueHeaders: {},
+		httpMethod: 'GET',
+		isBase64Encoded: false,
+		path: `/products/${productId ?? ''}`,
+		pathParameters: productId ? { productId } : null,
+		queryStringParameters: null,
+		multiValueQueryStringParameters: null,
+		stageVariables: null,
+		requestContext: {} as any,
+		resource: '',
+	});
+
+	it('should return 200 with product if found', async () => {
+		const mockProducts = [
+			{
+				id: '1',
+				title: 'Sample Product',
+				description: 'Sample Description',
+				price: 50,
+			},
+		];
+
+		jest.spyOn(productsRepo, 'getProductsById').mockResolvedValue(mockProducts);
+
+		const event = createMockEvent('1');
+		const result: APIGatewayProxyResult = await getProductsByIdHandler(event);
+
+		expect(result.statusCode).toBe(200);
+		expect(result.body).toEqual(JSON.stringify(mockProducts));
+	});
+
 	it('should return 400 if productId is missing', async () => {
-		const mockEvent = {
-			pathParameters: null,
-		} as unknown as APIGatewayProxyEvent;
+		const event = createMockEvent(); // no productId
+		const result: APIGatewayProxyResult = await getProductsByIdHandler(event);
 
-		const response = await getProductsByIdHandler(mockEvent);
-
-		expect(response.statusCode).toBe(400);
-		expect(JSON.parse(response.body)).toEqual({
-			message: 'Missing productId parameter',
-		});
+		expect(result.statusCode).toBe(400);
+		const body = JSON.parse(result.body);
+		expect(body.message).toBe('Missing productId parameter');
 	});
 
-	it('should return 404 if no product is found', async () => {
-		const mockEvent = {
-			pathParameters: { productId: 'non-existing-id' },
-		} as unknown as APIGatewayProxyEvent;
+	it('should return 404 if no products found', async () => {
+		jest.spyOn(productsRepo, 'getProductsById').mockResolvedValue([]);
 
-		const response = await getProductsByIdHandler(mockEvent);
+		const event = createMockEvent('nonexistent');
+		const result: APIGatewayProxyResult = await getProductsByIdHandler(event);
 
-		expect(response.statusCode).toBe(404);
-		expect(JSON.parse(response.body)).toHaveProperty('message');
+		expect(result.statusCode).toBe(404);
+		const body = JSON.parse(result.body);
+		expect(body.message).toBe(
+			`No product found with ID starting with 'nonexistent'`
+		);
 	});
 
-	it('should return 200 if a product is found', async () => {
-		const mockEvent = {
-			pathParameters: { productId: '7567ec4b' },
-		} as unknown as APIGatewayProxyEvent; // Partial ID from your mock data
+	it('should return 500 on internal error', async () => {
+		jest
+			.spyOn(productsRepo, 'getProductsById')
+			.mockRejectedValue(new Error('Internal error'));
 
-		const response = await getProductsByIdHandler(mockEvent);
+		const event = createMockEvent('1');
+		const result: APIGatewayProxyResult = await getProductsByIdHandler(event);
 
-		expect(response.statusCode).toBe(200);
-		const body = JSON.parse(response.body);
-		expect(Array.isArray(body)).toBe(true);
-		expect(body.length).toBeGreaterThan(0);
+		expect(result.statusCode).toBe(500);
+		const body = JSON.parse(result.body);
+		expect(body.message).toBe('Internal Server Error');
 	});
 });

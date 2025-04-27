@@ -1,7 +1,8 @@
 import { mockProducts } from '../../../data/products';
 import { Product } from '../../../models/Product';
+import { ProductDto } from '../../../models/ProductDto';
 
-export const getProductsList = async (): Promise<Product[] | undefined> => {
+export const getProductsList = async (): Promise<ProductDto[] | undefined> => {
 	try {
 		// Potentially await a DB or API call here in the future
 		return mockProducts;

@@ -1,11 +1,11 @@
 import { mockProducts } from '../../../data/products';
-import { Product } from '../../../models/Product';
+import { ProductDto } from '../../../models/ProductDto';
 
 export const getProductsById = async (
 	productId: string
-): Promise<Product[] | undefined> => {
+): Promise<ProductDto[] | undefined> => {
 	try {
-		const matches = mockProducts.filter((x: Product) =>
+		const matches = mockProducts.filter((x: ProductDto) =>
 			x.id?.startsWith(productId)
 		);
 		return matches;
