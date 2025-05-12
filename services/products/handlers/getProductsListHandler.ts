@@ -1,10 +1,10 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
 import { headers } from '../../headers';
-import { getProductsList } from '../repo/getProductsList';
+import { getRoomsList } from '../repo/getRoomsList';
 
 export const main = async (): Promise<APIGatewayProxyResult> => {
 	try {
-		const products = await getProductsList();
+		const products = await getRoomsList();
 		return {
 			statusCode: 200,
 			headers,
