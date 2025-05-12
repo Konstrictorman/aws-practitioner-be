@@ -5,13 +5,16 @@
 		"infra": "bin/infra.js"
 	},
 	"scripts": {
-		"build": "webpack",
+		"build": "webpack --config webpack.config.js",
+		"build:populate": "webpack --config webpack.populate.config.js",
 		"watch": "tsc -w",
 		"test": "jest --coverage",
 		"cdk": "cdk",
 		"bootstrap": "npx cdk bootstrap",
 		"deploy": " npm run build && npx cdk deploy",
-		"swagger:gen": "tsoa spec"
+		"swagger:gen": "tsoa spec",
+		"populate:products": "node dist/scripts/populateProducts.js",
+		"populate:stock": "node dist/scripts/populateStock.js"
 	},
 	"devDependencies": {
 		"@types/aws-lambda": "^8.10.149",
@@ -34,7 +37,9 @@
 	},
 	"dependencies": {
 		"aws-cdk-lib": "2.189.0",
+		"aws-sdk": "^2.1692.0",
 		"constructs": "^10.0.0",
+		"csv-parser": "^3.2.0",
 		"dotenv": "^16.5.0",
 		"yup": "^1.6.1"
 	}

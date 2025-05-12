@@ -27,7 +27,6 @@ module.exports = {
 		],
 	},
 	externals: {
-		// aws-sdk is available in Lambda runtime, no need to bundle it
 		'aws-sdk': 'commonjs aws-sdk',
 	},
 };
