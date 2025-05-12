@@ -29,6 +29,7 @@ describe('getProductsByIdHandler', () => {
 				title: 'Sample Product',
 				description: 'Sample Description',
 				price: 50,
+				qty: 21,
 			},
 		];
 

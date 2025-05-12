@@ -13,7 +13,7 @@ AWS.config.update({
 
 // Initialize DynamoDB Document Client
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const tableName = 'products';
+const tableName = 'Products';
 
 // List of toy names
 const toyNames = [

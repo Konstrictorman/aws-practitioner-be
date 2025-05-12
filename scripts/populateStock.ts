@@ -14,7 +14,7 @@ AWS.config.update({
 
 // Initialize DynamoDB Document Client
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const tableName = 'stock';
+const tableName = 'Stock';
 
 // Function to insert a stock item
 const insertStockItem = async (productId: string, count: number) => {

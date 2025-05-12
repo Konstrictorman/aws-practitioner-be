@@ -15,4 +15,7 @@ export class ProductDto {
 
 	@Example(19.99)
 	price!: number;
+
+	@Example(10)
+	qty!: number;
 }

@@ -14,6 +14,7 @@ describe('getProductsListHandler', () => {
 				title: 'Sample Product',
 				description: 'Sample Description',
 				price: 99.99,
+				qty: 32,
 			},
 		];
 

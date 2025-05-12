@@ -7,6 +7,7 @@ export const main = async (
 ): Promise<APIGatewayProxyResult> => {
 	try {
 		const productId = event.pathParameters?.productId;
+		console.log('Fetching for products with id like: ', productId);
 
 		if (!productId) {
 			return {
@@ -29,7 +30,7 @@ export const main = async (
 		return {
 			statusCode: 200,
 			headers,
-			body: JSON.stringify(matches),
+			body: JSON.stringify({ data: matches, count: matches.length }),
 		};
 	} catch (error) {
 		return {

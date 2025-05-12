@@ -6,8 +6,12 @@ module.exports = {
 	entry: {
 		getProductsListHandler:
 			'./services/products/handlers/getProductsListHandler.ts',
+		getProductsAvailableListHandler:
+			'./services/products/handlers/getProductsAvailableListHandler.ts',
 		getProductsByIdHandler:
 			'./services/products/handlers/getProductsByIdHandler.ts',
+		createProductHandler:
+			'./services/products/handlers/createProductHandler.ts',
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],

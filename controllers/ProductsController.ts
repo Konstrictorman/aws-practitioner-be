@@ -15,6 +15,15 @@ export class ProductsController {
 		return products ?? [];
 	}
 
+	@Get('/available')
+	@SuccessResponse('200', 'Success')
+	@Response('400', 'Bad Request')
+	@Response('404', 'Products Not Found')
+	public async getProductsAvailableList(): Promise<ProductDto[]> {
+		const products = await getProductsList();
+		return products ?? [];
+	}
+
 	@Get('{productId}')
 	@SuccessResponse('200', 'Success')
 	@Response('400', 'Bad Request - Missing productId')
