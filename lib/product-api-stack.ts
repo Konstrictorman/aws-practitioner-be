@@ -39,9 +39,7 @@ export class ProductApiStack extends Stack {
 		// [GET]/products
 		const getProductsList = new lambda.Function(this, 'getProductsList', {
 			functionName: 'GetProductsListLambdaFunction',
-			code: lambda.Code.fromAsset(
-				path.join(__dirname, '../dist/products/handlers/')
-			),
+			code: lambda.Code.fromAsset(path.join(__dirname, '../dist/handlers/')),
 			handler: 'getProductsListHandler.main',
 			runtime: lambda.Runtime.NODEJS_18_X,
 			memorySize: 1024,
@@ -58,9 +56,7 @@ export class ProductApiStack extends Stack {
 			'getProductsAvailableList',
 			{
 				functionName: 'GetProductsAvailableListLambdaFunction',
-				code: lambda.Code.fromAsset(
-					path.join(__dirname, '../dist/products/handlers/')
-				),
+				code: lambda.Code.fromAsset(path.join(__dirname, '../dist/handlers/')),
 				handler: 'getProductsAvailableListHandler.main',
 				runtime: lambda.Runtime.NODEJS_18_X,
 				memorySize: 1024,
@@ -75,9 +71,7 @@ export class ProductApiStack extends Stack {
 		// [GET]/products/{id}
 		const getProductById = new lambda.Function(this, 'getProductById', {
 			functionName: 'GetProductByIdLambdaFunction',
-			code: lambda.Code.fromAsset(
-				path.join(__dirname, '../dist/products/handlers/')
-			),
+			code: lambda.Code.fromAsset(path.join(__dirname, '../dist/handlers/')),
 			handler: 'getProductsByIdHandler.main',
 			runtime: lambda.Runtime.NODEJS_18_X,
 			memorySize: 1024,
@@ -91,9 +85,7 @@ export class ProductApiStack extends Stack {
 		// [POST]/products
 		const createProduct = new lambda.Function(this, 'createProduct', {
 			functionName: 'CreateProductLambdaFunction',
-			code: lambda.Code.fromAsset(
-				path.join(__dirname, '../dist/products/handlers/')
-			),
+			code: lambda.Code.fromAsset(path.join(__dirname, '../dist/handlers/')),
 			handler: 'createProductHandler.main',
 			runtime: lambda.Runtime.NODEJS_18_X,
 			memorySize: 1024,

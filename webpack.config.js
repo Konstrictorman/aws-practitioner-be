@@ -1,4 +1,5 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
 	target: 'node', // Important for Lambda environment
@@ -12,13 +13,17 @@ module.exports = {
 			'./services/products/handlers/getProductsByIdHandler.ts',
 		createProductHandler:
 			'./services/products/handlers/createProductHandler.ts',
+		importProductsFileHandler:
+			'./services/import/handlers/importProductsFileHandler.ts',
+		importFileParserHandler:
+			'./services/import/handlers/importFileParserHandler.ts',
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],
 	},
 	output: {
 		filename: '[name].js', // [name] will be getProductsList.js and getProductsById.js
-		path: path.resolve(__dirname, 'dist/products/handlers'), // output bundled files into dist/products
+		path: path.resolve(__dirname, 'dist/handlers/'), // output bundled files into dist
 		libraryTarget: 'commonjs2', // Important for Lambda
 	},
 	module: {
@@ -30,7 +35,11 @@ module.exports = {
 			},
 		],
 	},
-	externals: {
-		'aws-sdk': 'commonjs aws-sdk',
+	plugins: [
+		new CleanWebpackPlugin(), // Clean the dist folder before building
+	],
+	optimization: {
+		minimize: true, // Minimize the final bundle
 	},
+	externals: [],
 };

@@ -1,8 +1,22 @@
 {
   "version": "41.0.0",
   "files": {
+    "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6": {
+      "displayName": "ImportApiStack/Custom::S3AutoDeleteObjectsCustomResourceProvider Code",
+      "source": {
+        "path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
     "691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b": {
-      "displayName": "getProductsList/Code",
+      "displayName": "importProductsFile/Code",
       "source": {
         "path": "asset.691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b",
         "packaging": "zip"
@@ -15,16 +29,16 @@
         }
       }
     },
-    "8dec2711f72d3d9ddfd25d7f867d6a11a6d9af4d81f2e95b68f182adc1457a1b": {
-      "displayName": "ProductApiStack Template",
+    "f80dcecd018440fd1db504404ace0ccbfbf7ad50ea3a2d8ae95708616acacbe8": {
+      "displayName": "ImportApiStack Template",
       "source": {
-        "path": "ProductApiStack.template.json",
+        "path": "ImportApiStack.template.json",
         "packaging": "file"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "8dec2711f72d3d9ddfd25d7f867d6a11a6d9af4d81f2e95b68f182adc1457a1b.json",
+          "objectKey": "f80dcecd018440fd1db504404ace0ccbfbf7ad50ea3a2d8ae95708616acacbe8.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
