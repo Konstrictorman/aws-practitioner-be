@@ -1,2 +1,6 @@
 node_modules
 package-lock.json
+.vscode/
+dist/
+cdk.out/asset*
+cdk.out/.cache*

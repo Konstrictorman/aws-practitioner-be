@@ -1,0 +1,126 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ProductDto": {
+				"description": "Product DTO for Swagger documentation",
+				"properties": {
+					"id": {
+						"type": "string",
+						"example": "7567ec4b-b10c-48c5-9345-fc73c48a80aa"
+					},
+					"title": {
+						"type": "string",
+						"example": "Toy Product"
+					},
+					"description": {
+						"type": "string",
+						"example": "A fun toy product description."
+					},
+					"price": {
+						"type": "number",
+						"format": "double",
+						"example": 19.99
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "infra",
+		"version": "0.1.0",
+		"contact": {}
+	},
+	"paths": {
+		"/products": {
+			"get": {
+				"operationId": "GetProductsList",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductDto"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"404": {
+						"description": "Products Not Found"
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/products/{productId}": {
+			"get": {
+				"operationId": "GetProductsById",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductDto"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request - Missing productId"
+					},
+					"404": {
+						"description": "Product not found"
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "productId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
