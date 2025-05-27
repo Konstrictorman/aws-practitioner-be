@@ -14,10 +14,11 @@ const env = {
 	region: process.env.AWS_REGION!,
 };
 
-new ProductApiStack(app, 'ProductApiStack', {
+const importStack = new ImportApiStack(app, 'ImportApiStack', {
 	env: env,
 });
 
-new ImportApiStack(app, 'ImportApiStack', {
-	env: env,
+const productStack = new ProductApiStack(app, 'ProductApiStack', {
+	catalogItemsQueue: importStack.catalogItemsQueue,
+	createProductTopic: importStack.createProductTopic,
 });

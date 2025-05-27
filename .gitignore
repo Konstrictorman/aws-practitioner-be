@@ -4,3 +4,4 @@ package-lock.json
 dist/
 cdk.out/asset*
 cdk.out/.cache*
+cdk.out/*

@@ -12,16 +12,20 @@ import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 
 export class ImportApiStack extends Stack {
+	public readonly catalogItemsQueue: sqs.Queue;
+	public readonly createProductTopic: sns.Topic;
+
 	constructor(scope: Construct, id: string, props?: StackProps) {
 		super(scope, id, props);
 
 		const bucketName = `app-store-bucket-${this.account}-${this.region}`;
-		const catalogItemsQueue = new sqs.Queue(this, 'product-sqs');
-		const createProductTopic = new sns.Topic(this, 'createProductTopic', {
+
+		this.catalogItemsQueue = new sqs.Queue(this, 'product-sqs');
+		this.createProductTopic = new sns.Topic(this, 'createProductTopic', {
 			topicName: 'CreateProductTopic',
 		});
 
-		createProductTopic.addSubscription(
+		this.createProductTopic.addSubscription(
 			new subscriptions.EmailSubscription('rikhardho@hotmail.com')
 		);
 
@@ -60,36 +64,11 @@ export class ImportApiStack extends Stack {
 			timeout: Duration.seconds(30),
 			environment: {
 				BUCKET_NAME: bucket.bucketName,
-				SQS_URL: catalogItemsQueue.queueUrl,
+				SQS_URL: this.catalogItemsQueue.queueUrl,
 			},
 		});
 
-		const catalogBatchProcess = new lambda.Function(
-			this,
-			'catalogBatchProcess',
-			{
-				functionName: 'CatalogBatchProcess_SQSLambdaFunction',
-				code: lambda.Code.fromAsset(path.join(__dirname, '../dist/handlers/')),
-				handler: 'createBatchProductHandler.main',
-				runtime: lambda.Runtime.NODEJS_20_X,
-				memorySize: 1024,
-				timeout: cdk.Duration.seconds(5),
-			}
-		);
-
-		catalogBatchProcess.addEventSource(
-			new SqsEventSource(catalogItemsQueue, {
-				batchSize: 5, // Maximum 5 messages per invocation
-			})
-		);
-		catalogBatchProcess.addEnvironment(
-			'PRODUCT_CREATED_TOPIC_ARN',
-			createProductTopic.topicArn
-		);
-		createProductTopic.grantPublish(catalogBatchProcess);
-
-		catalogItemsQueue.grantSendMessages(importFileParser);
-		catalogItemsQueue.grantConsumeMessages(catalogBatchProcess);
+		this.catalogItemsQueue.grantSendMessages(importFileParser);
 
 		// Grant the Lambda function read access to the bucket
 		bucket.grantReadWrite(importProductsFile);
