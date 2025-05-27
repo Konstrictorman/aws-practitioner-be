@@ -7,6 +7,7 @@ module.exports = {
 	entry: {
 		populateProducts: './scripts/populateProducts.ts',
 		populateStock: './scripts/populateStock.ts', // Your populate script
+		generateProductsCsv: './scripts/generateProductsCsv',
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],

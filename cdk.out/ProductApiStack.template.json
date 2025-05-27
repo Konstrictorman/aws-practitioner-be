@@ -118,7 +118,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b.zip"
+     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
     },
     "Environment": {
      "Variables": {
@@ -144,7 +144,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ProductApiStack/getProductsList/Resource",
-    "aws:asset:path": "asset.691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b",
+    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -267,7 +267,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b.zip"
+     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
     },
     "Environment": {
      "Variables": {
@@ -293,7 +293,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ProductApiStack/getProductsAvailableList/Resource",
-    "aws:asset:path": "asset.691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b",
+    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -416,7 +416,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b.zip"
+     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
     },
     "Environment": {
      "Variables": {
@@ -442,7 +442,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ProductApiStack/getProductById/Resource",
-    "aws:asset:path": "asset.691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b",
+    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -562,7 +562,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b.zip"
+     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
     },
     "Environment": {
      "Variables": {
@@ -588,7 +588,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ProductApiStack/createProduct/Resource",
-    "aws:asset:path": "asset.691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b",
+    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }

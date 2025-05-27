@@ -1,5 +1,35 @@
 {
  "Resources": {
+  "productsqs594A7C13": {
+   "Type": "AWS::SQS::Queue",
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/product-sqs/Resource"
+   }
+  },
+  "createProductTopic05C0E62B": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "TopicName": "CreateProductTopic"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/createProductTopic/Resource"
+   }
+  },
+  "createProductTopicrikhardhohotmailcom36F220D9": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": "rikhardho@hotmail.com",
+    "Protocol": "email",
+    "TopicArn": {
+     "Ref": "createProductTopic05C0E62B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/createProductTopic/rikhardho@hotmail.com/Resource"
+   }
+  },
   "appStoreBucketC4E2F693": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
@@ -347,7 +377,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b.zip"
+     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
     },
     "Environment": {
      "Variables": {
@@ -373,7 +403,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ImportApiStack/importProductsFile/Resource",
-    "aws:asset:path": "asset.691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b",
+    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -417,6 +447,20 @@
    "Properties": {
     "PolicyDocument": {
      "Statement": [
+      {
+       "Action": [
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:SendMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "productsqs594A7C13",
+         "Arn"
+        ]
+       }
+      },
       {
        "Action": [
         "s3:Abort*",
@@ -475,12 +519,15 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b.zip"
+     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
     },
     "Environment": {
      "Variables": {
       "BUCKET_NAME": {
        "Ref": "appStoreBucketC4E2F693"
+      },
+      "SQS_URL": {
+       "Ref": "productsqs594A7C13"
       }
      }
     },
@@ -501,9 +548,142 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ImportApiStack/importFileParser/Resource",
-    "aws:asset:path": "asset.691907268882545853bbe77c1bac629d1b1d6326047fa784434bee74dd8c4a4b",
+    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
+   }
+  },
+  "catalogBatchProcessServiceRole274D33CD": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/catalogBatchProcess/ServiceRole/Resource"
+   }
+  },
+  "catalogBatchProcessServiceRoleDefaultPolicy8FC58026": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "productsqs594A7C13",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "createProductTopic05C0E62B"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "catalogBatchProcessServiceRoleDefaultPolicy8FC58026",
+    "Roles": [
+     {
+      "Ref": "catalogBatchProcessServiceRole274D33CD"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/catalogBatchProcess/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "catalogBatchProcessDC6613DA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "PRODUCT_CREATED_TOPIC_ARN": {
+       "Ref": "createProductTopic05C0E62B"
+      }
+     }
+    },
+    "FunctionName": "CatalogBatchProcess_SQSLambdaFunction",
+    "Handler": "createBatchProductHandler.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "catalogBatchProcessServiceRole274D33CD",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 5
+   },
+   "DependsOn": [
+    "catalogBatchProcessServiceRoleDefaultPolicy8FC58026",
+    "catalogBatchProcessServiceRole274D33CD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/catalogBatchProcess/Resource",
+    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "catalogBatchProcessSqsEventSourceImportApiStackproductsqsB9214DA1226506D7": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "BatchSize": 5,
+    "EventSourceArn": {
+     "Fn::GetAtt": [
+      "productsqs594A7C13",
+      "Arn"
+     ]
+    },
+    "FunctionName": {
+     "Ref": "catalogBatchProcessDC6613DA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/catalogBatchProcess/SqsEventSource:ImportApiStackproductsqsB9214DA1/Resource"
    }
   },
   "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC": {
@@ -778,7 +958,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+VVS2/bMAz+LfOxULwuvWy9Je0GFFjXoMstCApFYh0ltmTokSIw8t9HvRx1HXbtgJ1Ekx/Jj6RET+tPn7/Ulx/oi5kwvp+0YlMPPy1le4Kqp8Fc1cPcsT3Y1VBtgvCDdlBdVxcVqQ6gjVASeHVttQNSaejUgbYL1Qp2RBAHY7U6IpQ6q26hBQsPmx0wa6LLaU1unmXMQOIRncd0IVUJi/YEnlMDq/WJtLTbcFoPiFqA7oTxvMg3J5lFAYM9J7FgzxTP4pZK3oJOX9pJK0aYF5Wz6QvkQWglO5CJGRkqyvnXUr0KyItq7Y3vkzj0K5d/IoJ29fCoWsBOUGNcB3yO8xmqXgvJRE/bGWPKyZwsYrzDLERIGauOStoADyMQgDPEeKXuONMJu078lmqRU+RbsRqS1eI9297JVkgYbbltfzf+zyUkVvcl53epItwxz46kJ+tJZ4el8pY3cd6qOcd1Y8FfYJMp/XOBQqmxyhMxV084GbCmnvmD0F40iH+hR3xjuPBmvcBp6CgVzx6XIdOiP08yNjDiyC30rTr6pOj8OxTvQi/ykgBLhTzDTbkOluq7agSj7R0v5vsnfUh+jkKw5gZC6qwqSAYjQarKaQZh6fp2jRr066mG8eb21G4XVNvXdQYouQe7VTx2KGjyKrS2j7akENJCo2nRBBU6Yoqo0QHfxI0zVnUjn8CuzPravtDqIDhoXwkJU/QVCtmQMgLJ69RHenC2d/ZEJC7vemc+HqaX9RT/nDsjxCQt7voxnr8AW5V1rVYHAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/91W3U/bMBD/W5bHyWSMvWy8tXxISHR0tBIPFUKufU0NiZ35o6yL8r/v7MSpC4inISQeoth3v/v0nX1H+dfvP/LDT/TRHDD+cFCKZd7MLGUPBEl3jflt8uaXAweL7HN2S05WMuxaYiRy5qoWbNFk1v9/0gqyY4S1ARd4ZOaWhmlRW6FkBAYQyUDyWglp+22tlVVMlbiFiooSSStRWtBTVQq27VEp6UbY9QSMoQWMFY8IDpRfgkVU8DTxKPUFA/iWN2PHHsCiX8uwGCIg2Qa0QRjw7NhqByTTUKkNLQdnOBir1Rah1Fl1CiVYuFreA7OmE+lsdhZI9+uEB3OJaym/B4+pgcVtS0paLTnNG0RNQVfCeL/IuZOsz+mqXybeM8Xjck0lL0H3O+2kFQPML5Wzw3lshFaygv5IWtJklPOzlLwISKwEz3w3w2/kVYVHrLcz8fclN1+3Gw4xngk52yB7ppxmMKF1LWThS5/qAmLIS2rZOrFU0T9jT0LojZBcPe7oJ0oypzXIoQc01ErbgL+wUJ1jszgNZsgmXZa+brvdzpWRlntNZPZ2Z5LpbWiNIRtWC2bQ/EoUSak+D64lglZ5c61KwDipMa4CPkZvG2xqIZmoaTliTLmh1zuMFxixwWTrw5XYzDz0gfARob6Uto0xtLEO5moaTcTWXDQ91+I9tr6QpZAw8IYSepX5AUJ4Xe+HD/CNwu91T9J43yUDoRW9d6R/VLzTUWCuPOeZnudkzvGtxysEO9pEl/6bonfS/8ZmQ+K7nPsZ4g7rBKzJR/5HaC0KxD/SLV6HOCCMaoG1obtV8iDh8BAHkeRm7SXIKdSl2nqjKPwUipVZi+EhsFTIHdykL9VcXapCMFpe8Cd98ZQejO+0EIy5gGA6ktIhyjMJuhpegDCkhMkwUlCuphp2Yx216ynVdj/OACUTsGvFuwwFSnykra07Xk/AKREKTZMkqJARk2jtBLBDT5yxqhr8iXPrYHWfP9VqIzhoHwkJp+gjxFeNpBpI8gVtV87WzrZE4miR35svm6PD/AgH6XsjxEE/VuTX3f8fZvyjzWULAAA="
    },
    "Metadata": {
     "aws:cdk:path": "ImportApiStack/CDKMetadata/Default"

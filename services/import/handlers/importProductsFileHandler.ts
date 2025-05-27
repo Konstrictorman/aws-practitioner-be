@@ -15,7 +15,7 @@ export const main = async (
 ): Promise<APIGatewayProxyResult> => {
 	console.log('API Gateway Event Received:', JSON.stringify(event));
 
-	const bucketName = `app-store-bucket-${process.env.AWS_ACCOUNT}-${process.env.AWS_REGION}`;
+	const bucketName = process.env.BUCKET_NAME!;
 
 	// Validate the fileName query parameter
 	const fileName = event.queryStringParameters?.fileName;

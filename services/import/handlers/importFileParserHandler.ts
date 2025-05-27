@@ -1,63 +1,66 @@
-// /services/import/handlers/importFileParserHandler.ts
-
 import { S3Event, Context, Callback, S3Handler } from 'aws-lambda';
 import AWS from 'aws-sdk';
 import csvParser from 'csv-parser';
 
 const s3 = new AWS.S3();
+const sqs = new AWS.SQS();
+
+const queueUrl = process.env.SQS_URL!;
+if (!queueUrl) {
+	throw new Error('SQS_URL environment variable must be defined');
+}
 
 export const main: S3Handler = async (
 	event: S3Event,
 	context: Context,
 	callback: Callback
 ) => {
-	console.log('S3 Event Received:', JSON.stringify(event));
-
-	// Validate the event
 	if (!event.Records || event.Records.length === 0) {
-		console.error('No S3 records found in the event');
-		return;
+		return callback(new Error('No S3 records found in the event'));
 	}
 
 	const record = event.Records[0];
 	const bucketName = record.s3.bucket.name;
 	const objectKey = record.s3.object.key;
 
-	if (!objectKey.startsWith('uploaded/')) {
-		console.error('Object is not in the "uploaded/" folder');
-		return;
+	if (!objectKey.startsWith('uploaded/products.csv')) {
+		return callback(new Error('Only "uploaded/products.csv" is allowed'));
 	}
 
 	try {
-		// Set up a readable stream from S3
 		const s3Stream = s3
-			.getObject({
-				Bucket: bucketName,
-				Key: objectKey,
-			})
+			.getObject({ Bucket: bucketName, Key: objectKey })
 			.createReadStream();
 
-		// Parse the CSV file using a readable stream
-		s3Stream
-			.pipe(csvParser())
-			.on('data', (record) => {
-				console.log('CSV Record:', record);
-			})
-			.on('end', () => {
-				console.log('CSV parsing completed');
-				callback(null, {
-					statusCode: 200,
-					body: JSON.stringify({
-						message: 'CSV parsing completed successfully',
-					}),
-				});
-			})
-			.on('error', (error) => {
-				console.error('Error reading the CSV file:', error);
-				callback(error);
-			});
+		const sendMessagePromises: Promise<AWS.SQS.SendMessageResult>[] = [];
+
+		await new Promise<void>((resolve, reject) => {
+			s3Stream
+				.pipe(csvParser())
+				.on('data', (csvRecord) => {
+					const messageBody = JSON.stringify(csvRecord);
+					const sendPromise = sqs
+						.sendMessage({
+							QueueUrl: queueUrl,
+							MessageBody: messageBody,
+						})
+						.promise();
+
+					sendMessagePromises.push(sendPromise);
+				})
+				.on('end', () => resolve())
+				.on('error', (error) => reject(error));
+		});
+
+		await Promise.all(sendMessagePromises);
+
+		callback(null, {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: 'CSV parsed and messages sent to SQS successfully',
+			}),
+		});
 	} catch (error) {
-		console.error('Error processing file:', error);
 		callback(error as Error);
 	}
 };

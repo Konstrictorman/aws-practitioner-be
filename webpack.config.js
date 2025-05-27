@@ -17,6 +17,8 @@ module.exports = {
 			'./services/import/handlers/importProductsFileHandler.ts',
 		importFileParserHandler:
 			'./services/import/handlers/importFileParserHandler.ts',
+		createBatchProductHandler:
+			'./services/products/handlers/createBatchProductHandler.ts',
 	},
 	resolve: {
 		extensions: ['.ts', '.js'],
