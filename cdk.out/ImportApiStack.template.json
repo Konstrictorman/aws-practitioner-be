@@ -164,7 +164,7 @@
          "FilterRules": [
           {
            "Name": "prefix",
-           "Value": "upload/"
+           "Value": "uploaded/"
           }
          ]
         }

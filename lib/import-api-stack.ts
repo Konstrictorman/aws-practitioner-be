@@ -99,7 +99,7 @@ export class ImportApiStack extends Stack {
 		bucket.addEventNotification(
 			s3.EventType.OBJECT_CREATED_PUT,
 			new s3n.LambdaDestination(importFileParser),
-			{ prefix: 'upload/' } // Only trigger for the "upload/" folder
+			{ prefix: 'uploaded/' } // Only trigger for the "upload/" folder
 		);
 
 		const api = new apigateway.RestApi(this, 'Import-end-point', {
