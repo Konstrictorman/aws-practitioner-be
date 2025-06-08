@@ -5,5 +5,5 @@ import * as sns from 'aws-cdk-lib/aws-sns';
 export declare class ImportApiStack extends Stack {
     readonly catalogItemsQueue: sqs.Queue;
     readonly createProductTopic: sns.Topic;
-    constructor(scope: Construct, id: string, props?: StackProps);
+    constructor(scope: Construct, id: string, props: StackProps);
 }

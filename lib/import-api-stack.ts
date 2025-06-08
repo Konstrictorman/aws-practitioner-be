@@ -9,13 +9,12 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
-import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 
 export class ImportApiStack extends Stack {
 	public readonly catalogItemsQueue: sqs.Queue;
 	public readonly createProductTopic: sns.Topic;
 
-	constructor(scope: Construct, id: string, props?: StackProps) {
+	constructor(scope: Construct, id: string, props: StackProps) {
 		super(scope, id, props);
 
 		const bucketName = `app-store-bucket-${this.account}-${this.region}`;
@@ -86,10 +85,41 @@ export class ImportApiStack extends Stack {
 			description: 'This API serves the Lambda functions for uploading files.',
 		});
 
+		const basicAuthorizerArn = cdk.Fn.importValue('BasicAuthorizerArn');
+
+		const basicAuthorizerFunction = lambda.Function.fromFunctionAttributes(
+			this,
+			'basicAuthorizer',
+			{
+				functionArn: basicAuthorizerArn,
+				sameEnvironment: true,
+			}
+		);
+
+		new lambda.CfnPermission(this, 'ApiGatewayInvokePermission', {
+			action: 'lambda:InvokeFunction',
+			functionName: basicAuthorizerArn,
+			principal: 'apigateway.amazonaws.com',
+		});
+
+		const authorizer = new apigateway.TokenAuthorizer(
+			this,
+			'apiGatewayAuthorizer',
+			{
+				authorizerName: 'ImportApiLambdaAuthorizer',
+				handler: basicAuthorizerFunction,
+				identitySource: apigateway.IdentitySource.header('Authorization'),
+			}
+		);
+
 		const importResource = api.root.addResource('import');
 		importResource.addMethod(
 			'GET',
-			new apigateway.LambdaIntegration(importProductsFile)
+			new apigateway.LambdaIntegration(importProductsFile),
+			{
+				authorizer,
+				authorizationType: apigateway.AuthorizationType.CUSTOM,
+			}
 		);
 	}
 }

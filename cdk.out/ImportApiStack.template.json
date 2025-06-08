@@ -377,7 +377,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
+     "S3Key": "cdcda86eb8ed852c904227629ab0c78bf5aa548a43b829ef820fb01bdc8680e5.zip"
     },
     "Environment": {
      "Variables": {
@@ -403,7 +403,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ImportApiStack/importProductsFile/Resource",
-    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
+    "aws:asset:path": "asset.cdcda86eb8ed852c904227629ab0c78bf5aa548a43b829ef820fb01bdc8680e5",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -519,7 +519,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
+     "S3Key": "cdcda86eb8ed852c904227629ab0c78bf5aa548a43b829ef820fb01bdc8680e5.zip"
     },
     "Environment": {
      "Variables": {
@@ -548,142 +548,9 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ImportApiStack/importFileParser/Resource",
-    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
+    "aws:asset:path": "asset.cdcda86eb8ed852c904227629ab0c78bf5aa548a43b829ef820fb01bdc8680e5",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
-   }
-  },
-  "catalogBatchProcessServiceRole274D33CD": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "lambda.amazonaws.com"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "ManagedPolicyArns": [
-     {
-      "Fn::Join": [
-       "",
-       [
-        "arn:",
-        {
-         "Ref": "AWS::Partition"
-        },
-        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-       ]
-      ]
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "ImportApiStack/catalogBatchProcess/ServiceRole/Resource"
-   }
-  },
-  "catalogBatchProcessServiceRoleDefaultPolicy8FC58026": {
-   "Type": "AWS::IAM::Policy",
-   "Properties": {
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": [
-        "sqs:ChangeMessageVisibility",
-        "sqs:DeleteMessage",
-        "sqs:GetQueueAttributes",
-        "sqs:GetQueueUrl",
-        "sqs:ReceiveMessage"
-       ],
-       "Effect": "Allow",
-       "Resource": {
-        "Fn::GetAtt": [
-         "productsqs594A7C13",
-         "Arn"
-        ]
-       }
-      },
-      {
-       "Action": "sns:Publish",
-       "Effect": "Allow",
-       "Resource": {
-        "Ref": "createProductTopic05C0E62B"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "PolicyName": "catalogBatchProcessServiceRoleDefaultPolicy8FC58026",
-    "Roles": [
-     {
-      "Ref": "catalogBatchProcessServiceRole274D33CD"
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "ImportApiStack/catalogBatchProcess/ServiceRole/DefaultPolicy/Resource"
-   }
-  },
-  "catalogBatchProcessDC6613DA": {
-   "Type": "AWS::Lambda::Function",
-   "Properties": {
-    "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
-     "S3Key": "1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89.zip"
-    },
-    "Environment": {
-     "Variables": {
-      "PRODUCT_CREATED_TOPIC_ARN": {
-       "Ref": "createProductTopic05C0E62B"
-      }
-     }
-    },
-    "FunctionName": "CatalogBatchProcess_SQSLambdaFunction",
-    "Handler": "createBatchProductHandler.main",
-    "MemorySize": 1024,
-    "Role": {
-     "Fn::GetAtt": [
-      "catalogBatchProcessServiceRole274D33CD",
-      "Arn"
-     ]
-    },
-    "Runtime": "nodejs20.x",
-    "Timeout": 5
-   },
-   "DependsOn": [
-    "catalogBatchProcessServiceRoleDefaultPolicy8FC58026",
-    "catalogBatchProcessServiceRole274D33CD"
-   ],
-   "Metadata": {
-    "aws:cdk:path": "ImportApiStack/catalogBatchProcess/Resource",
-    "aws:asset:path": "asset.1d459c0cbf06c56494e72b0db3adc7fa25158ba64c172232eb0dba298a954b89",
-    "aws:asset:is-bundled": false,
-    "aws:asset:property": "Code"
-   }
-  },
-  "catalogBatchProcessSqsEventSourceImportApiStackproductsqsB9214DA1226506D7": {
-   "Type": "AWS::Lambda::EventSourceMapping",
-   "Properties": {
-    "BatchSize": 5,
-    "EventSourceArn": {
-     "Fn::GetAtt": [
-      "productsqs594A7C13",
-      "Arn"
-     ]
-    },
-    "FunctionName": {
-     "Ref": "catalogBatchProcessDC6613DA"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ImportApiStack/catalogBatchProcess/SqsEventSource:ImportApiStackproductsqsB9214DA1/Resource"
    }
   },
   "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC": {
@@ -779,7 +646,7 @@
     "aws:cdk:path": "ImportApiStack/Import-end-point/Resource"
    }
   },
-  "ImportendpointDeployment237DB986f2cb77ded7209cc4d1a6f676a7eb0aa5": {
+  "ImportendpointDeployment237DB9866e6c767114e15348bc5afb19b5196a31": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "This API serves the Lambda functions for uploading files.",
@@ -788,6 +655,7 @@
     }
    },
    "DependsOn": [
+    "apiGatewayAuthorizer0186C2B6",
     "ImportendpointimportGET3A28C147",
     "Importendpointimport4CDEADFA"
    ],
@@ -799,7 +667,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "ImportendpointDeployment237DB986f2cb77ded7209cc4d1a6f676a7eb0aa5"
+     "Ref": "ImportendpointDeployment237DB9866e6c767114e15348bc5afb19b5196a31"
     },
     "RestApiId": {
      "Ref": "ImportendpointC275B721"
@@ -915,7 +783,10 @@
   "ImportendpointimportGET3A28C147": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
-    "AuthorizationType": "NONE",
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "apiGatewayAuthorizer0186C2B6"
+    },
     "HttpMethod": "GET",
     "Integration": {
      "IntegrationHttpMethod": "POST",
@@ -955,10 +826,118 @@
     "aws:cdk:path": "ImportApiStack/Import-end-point/Default/import/GET/Resource"
    }
   },
+  "basicAuthorizerImportApiStackapiGatewayAuthorizerB05609DEPermissionsC1926BAE": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "BasicAuthorizerArn"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ImportendpointC275B721"
+       },
+       "/authorizers/",
+       {
+        "Ref": "apiGatewayAuthorizer0186C2B6"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/basicAuthorizer/ImportApiStackapiGatewayAuthorizerB05609DE:Permissions"
+   }
+  },
+  "ApiGatewayInvokePermission": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "BasicAuthorizerArn"
+    },
+    "Principal": "apigateway.amazonaws.com"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/ApiGatewayInvokePermission"
+   }
+  },
+  "apiGatewayAuthorizer0186C2B6": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "AuthorizerResultTtlInSeconds": 300,
+    "AuthorizerUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::ImportValue": "BasicAuthorizerArn"
+           }
+          ]
+         }
+        ]
+       },
+       ":apigateway:",
+       {
+        "Fn::Select": [
+         3,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::ImportValue": "BasicAuthorizerArn"
+           }
+          ]
+         }
+        ]
+       },
+       ":lambda:path/2015-03-31/functions/",
+       {
+        "Fn::ImportValue": "BasicAuthorizerArn"
+       },
+       "/invocations"
+      ]
+     ]
+    },
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "ImportApiLambdaAuthorizer",
+    "RestApiId": {
+     "Ref": "ImportendpointC275B721"
+    },
+    "Type": "TOKEN"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ImportApiStack/apiGatewayAuthorizer/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/91W3U/bMBD/W5bHyWSMvWy8tXxISHR0tBIPFUKufU0NiZ35o6yL8r/v7MSpC4inISQeoth3v/v0nX1H+dfvP/LDT/TRHDD+cFCKZd7MLGUPBEl3jflt8uaXAweL7HN2S05WMuxaYiRy5qoWbNFk1v9/0gqyY4S1ARd4ZOaWhmlRW6FkBAYQyUDyWglp+22tlVVMlbiFiooSSStRWtBTVQq27VEp6UbY9QSMoQWMFY8IDpRfgkVU8DTxKPUFA/iWN2PHHsCiX8uwGCIg2Qa0QRjw7NhqByTTUKkNLQdnOBir1Rah1Fl1CiVYuFreA7OmE+lsdhZI9+uEB3OJaym/B4+pgcVtS0paLTnNG0RNQVfCeL/IuZOsz+mqXybeM8Xjck0lL0H3O+2kFQPML5Wzw3lshFaygv5IWtJklPOzlLwISKwEz3w3w2/kVYVHrLcz8fclN1+3Gw4xngk52yB7ppxmMKF1LWThS5/qAmLIS2rZOrFU0T9jT0LojZBcPe7oJ0oypzXIoQc01ErbgL+wUJ1jszgNZsgmXZa+brvdzpWRlntNZPZ2Z5LpbWiNIRtWC2bQ/EoUSak+D64lglZ5c61KwDipMa4CPkZvG2xqIZmoaTliTLmh1zuMFxixwWTrw5XYzDz0gfARob6Uto0xtLEO5moaTcTWXDQ91+I9tr6QpZAw8IYSepX5AUJ4Xe+HD/CNwu91T9J43yUDoRW9d6R/VLzTUWCuPOeZnudkzvGtxysEO9pEl/6bonfS/8ZmQ+K7nPsZ4g7rBKzJR/5HaC0KxD/SLV6HOCCMaoG1obtV8iDh8BAHkeRm7SXIKdSl2nqjKPwUipVZi+EhsFTIHdykL9VcXapCMFpe8Cd98ZQejO+0EIy5gGA6ktIhyjMJuhpegDCkhMkwUlCuphp2Yx216ynVdj/OACUTsGvFuwwFSnykra07Xk/AKREKTZMkqJARk2jtBLBDT5yxqhr8iXPrYHWfP9VqIzhoHwkJp+gjxFeNpBpI8gVtV87WzrZE4miR35svm6PD/AgH6XsjxEE/VuTX3f8fZvyjzWULAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/91W328TMQz+W7hHlB5jvMDe2g2kSRsrWyUeqmlKE69Ne5cc+dGpnPq/4+SSNGNiQgg0iafk7M/OZ8ex77h++/5DffSKPpgR45tRIxZ1f2Mp2xAU3fXmm6n7Lw4czKvX1S05vZfha0+MRM1MdYLN+8r69TNtoTpB2D7ggo7cuIVhWnRWKJmAAUQqkLxTQtr42WllFVMNfkJLRYOie9FY0FPVCLaLqFL0VdjVJRhDlzBRPCE4UH4BFlGBacGo5IIBvKv7iWMbsMhrETY5AlJtQRuEAa9OrHZAKg2t2tImk+FgrFY7hFJn1Rk0YOFqsQZmzWAynDmcQIZlMM7HFdRKfQRPqIH57Z40tF1wWveImoJuhfG8yCcnWczpfdwW7Jniabuikjeg45d20ooM81vlbL6PrdBKthCvZE/6inL+sRTPAxIrwStf7OBfK0MyU25yklIqBW3r/lo1gFmjxrgW+ATvssfaE5KJjjZjxpTLJTlgvME4+InsqpZKrDkerksA3jf6K2W7sY7YRHempumIVEHzPmotPrfVuWyEhKzLkT6r/A9CeN7vHwcYfV+WEb1IjKEgPTsSH78nnQxmymue+Hkq5hx7sgVf7SZR+muO/rH/kIEheN907/DCwJp67BdCO7FE/APd4cPEjjruBF6SHnZFX8Fumzp30TWjBTmDrlE7fyga/wzFEulE6kJgqZAHuCn7zUxdqKVgtDnnj1Lz+/JA6uCdYC6WECglUTmNvJJgCMppBqFFhRGbJGjXUQ2H+Ujtakq1fRx/gJJLsCvFh8wFSerB1naDLgpw3MJS0yI5KmTK+BeGg2yltPiem3YSBPxs18VhOhw++CUztQE5zpb5N+Egwsd46oxVbY4sYTL/x/qpVlvBQfuckFAnPldCLknpgaSm7z1dOds5uycS50+9Nm+2x0f1Mf7XrI0Qozh76uth/QGNHXg39AgAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "ImportApiStack/CDKMetadata/Default"
@@ -991,6 +970,25 @@
       "/"
      ]
     ]
+   }
+  },
+  "ExportsOutputFnGetAttproductsqs594A7C13ArnB73C3E87": {
+   "Value": {
+    "Fn::GetAtt": [
+     "productsqs594A7C13",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "ImportApiStack:ExportsOutputFnGetAttproductsqs594A7C13ArnB73C3E87"
+   }
+  },
+  "ExportsOutputRefcreateProductTopic05C0E62B8C9DFF24": {
+   "Value": {
+    "Ref": "createProductTopic05C0E62B"
+   },
+   "Export": {
+    "Name": "ImportApiStack:ExportsOutputRefcreateProductTopic05C0E62B8C9DFF24"
    }
   }
  },

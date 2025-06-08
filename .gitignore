@@ -5,3 +5,4 @@ dist/
 cdk.out/asset*
 cdk.out/.cache*
 cdk.out/*
+.env
