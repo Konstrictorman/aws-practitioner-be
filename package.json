@@ -1,26 +1,55 @@
 {
-  "name": "infra",
-  "version": "0.1.0",
-  "bin": {
-    "infra": "bin/infra.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "test": "jest",
-    "cdk": "cdk"
-  },
-  "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "@types/node": "22.7.9",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
-    "aws-cdk": "2.1010.0",
-    "ts-node": "^10.9.2",
-    "typescript": "~5.6.3"
-  },
-  "dependencies": {
-    "aws-cdk-lib": "2.189.0",
-    "constructs": "^10.0.0"
-  }
+	"name": "infra",
+	"version": "0.1.0",
+	"bin": {
+		"infra": "bin/infra.js"
+	},
+	"scripts": {
+		"build": "webpack --config webpack.config.js",
+		"build:scripts": "webpack --config webpack.scripts.config.js",
+		"watch": "tsc -w",
+		"test": "jest --coverage",
+		"cdk": "cdk",
+		"bootstrap": "npx cdk bootstrap",
+		"deploy": " npm run build && npx cdk deploy --all",
+		"swagger:gen": "tsoa spec",
+		"populate:products": "node dist/scripts/populateProducts.js",
+		"populate:stock": "node dist/scripts/populateStock.js",
+		"generateCsv:products": "node dist/scripts/generateProductsCsv.js"
+	},
+	"devDependencies": {
+		"@aws-sdk/util-dynamodb": "^3.806.0",
+		"@types/aws-lambda": "^8.10.149",
+		"@types/express": "^5.0.1",
+		"@types/jest": "^29.5.14",
+		"@types/json2csv": "^5.0.7",
+		"@types/node": "^22.7.9",
+		"@types/swagger-ui-express": "^4.1.8",
+		"aws-cdk": "2.1010.0",
+		"aws-lambda": "^1.0.7",
+		"clean-webpack-plugin": "^4.0.0",
+		"csv-parser": "^3.2.0",
+		"express": "^5.1.0",
+		"jest": "^29.7.0",
+		"json2csv": "^6.0.0-alpha.2",
+		"swagger-ui-express": "^5.0.1",
+		"ts-jest": "^29.3.2",
+		"ts-loader": "^9.5.2",
+		"ts-node": "^10.9.2",
+		"tsoa": "^6.6.0",
+		"typescript": "~5.6.3",
+		"webpack": "^5.99.7",
+		"webpack-cli": "^6.0.1",
+		"webpack-node-externals": "^3.0.0"
+	},
+	"dependencies": {
+		"@aws-sdk/client-dynamodb": "^3.806.0",
+		"@types/uuid": "^10.0.0",
+		"aws-cdk-lib": "2.189.0",
+		"aws-sdk": "^2.1692.0",
+		"constructs": "^10.0.0",
+		"dotenv": "^16.5.0",
+		"uuid": "^11.1.0",
+		"yup": "^1.6.1"
+	}
 }
